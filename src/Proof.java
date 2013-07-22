@@ -202,7 +202,63 @@ public class Proof {
 			} 
 		}
 	}
-
 	
+	public void reasonDelagation(String[] args)
+	{
+		String command = args[0];
+		
+		if (command.equals("theorem"))
+		{
+			
+		}
+		if (command.equals("show"))
+		{
+			myLineNumber.layerDown();
+		}
+		if (command.equals("assume"))
+		{
+			myTheoremSet.put(myLineNumber.current(), args[1]);
+			myLineNumber.step();
+		}
+		if (command.equals("mp"))
+		{
+			mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.step();
+		}
+		if (command.equals("mt"))
+		{
+			mtChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.step();
+		}
+		if (command.equals("co"))
+		{
+			coChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.layerUp();
+		}
+		if (command.equals("ic"))
+		{
+			myLineNumber.layerUp();
+		}
+		if (command.equals("repeat"))
+		{
+			
+		}
+	}
+
+	public boolean implies(boolean op1, boolean op2)
+	{
+		//truth tabel processing
+		
+		if (op1==true && op2==true)
+		{
+			return true;
+		}
+		if (op1==true && op2==false)
+		{
+			return false;
+		}
+		return true;
+	
+	}
 
 }
