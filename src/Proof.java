@@ -83,6 +83,48 @@ public class Proof {
 		return true;
 	}
 	
+	public boolean mtChecker(ArrayList<String> Queues)
+	{
+		int i = 0;
+		while(true)
+		{
+			if(Queues.get(i).length() != 1)
+			{
+				String cur = Character.toString(Queues.get(i).charAt(i));
+				Queues.set(i,Queues.get(i).substring(1));
+				if(cur == "=>")
+				{
+					boolean bol1 = mtHelperChecker(Queues.get(i),Queues);
+					boolean bol2 = mtHelperChecker(Queues.get(i),Queues);
+					return implies(bol1,bol2);
+				}
+			}
+			i++;
+		}
+	}
+	
+	public boolean mtHelperChecker(String relation,ArrayList<String> Queues)
+	{
+		String cur = Character.toString(Queues.get(i).charAt(i));
+		Queues.set(i,Queues.get(i).substring(1));
+
+		if(cur == "=>")
+		{
+			boolean bol1 = mtHelperChecker(relation,Queues);
+			boolean bol2 = mtHelperChecker(relation,Queues);
+			return implies(bol1,bol2);
+		}
+		
+		if(Queues.contains(relation))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public static String[] StringSplitter(String x) throws IllegalLineException{
 		String[] rtn=x.split(" ");
 		if ((rtn.length<1)||rtn.length>4){
