@@ -101,7 +101,7 @@ public class Proof {
 		}
 		if (command.equals("show"))
 		{
-			
+			myLineNumber.layerDown();
 		}
 		if (command.equals("assume"))
 		{
@@ -110,19 +110,22 @@ public class Proof {
 		}
 		if (command.equals("mp"))
 		{
-			
+			mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.step();
 		}
 		if (command.equals("mt"))
 		{
-			
+			mtChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.step();
 		}
 		if (command.equals("co"))
 		{
-			
+			coChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			myLineNumber.layerUp();
 		}
 		if (command.equals("ic"))
 		{
-			
+			myLineNumber.layerUp();
 		}
 		if (command.equals("repeat"))
 		{
