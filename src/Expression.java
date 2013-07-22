@@ -1,0 +1,76 @@
+import java.util.LinkedList;
+
+/*Expression class is essentially a parser and data structure
+ *
+ * Black box description:
+ *
+ * Input = String, lowercased, no whitespace
+ * Output = tree data structure which is organized by operators
+ * sent into Theorem set to be accesed by the Proof class.
+ *
+ *
+ */
+
+public class Expression {
+
+	//Root of Tree (First Operator Usually)
+	public LinkedList<String> Queue;
+	// Class Constructor: Takes expression and passes to exprTreeHelper
+	public Expression (String s) {
+		exprTreeHelper(s);
+	}
+	public String toString ()
+	{
+		String myString =
+				"";
+
+		for(int i = 0; i < Queue.size(); i++)
+		{
+			myString +=
+					Queue.get(i);
+		}
+
+		return myString;
+	}
+	//Parser of Expression into Tree
+	private void exprTreeHelper (String expr) {
+		if (expr.charAt (0) != '(') {
+			Queue.add(Character.toString(expr.charAt(0)));
+		}
+		else {
+			// expr is a parenthesized expression.
+			// Strip off the beginning and ending parentheses,
+			// find the main operators nested
+			// in parentheses, and construct the two subtrees.
+			int nesting = 0;
+			int opPos = 0;
+			//Iterates over expression
+			for (int k=1; k<expr.length()-1; k++) {
+				if(Character.toString(expr.charAt(k)).equals("("))
+				{
+					nesting++;
+				}
+				if(Character.toString(expr.charAt(k)).equals(")"))
+				{
+					nesting--;
+				}
+				if(Character.toString(expr.charAt(k)).equals("+") || Character.toString(expr.charAt(k)).equals("*"))
+				{
+					if(nesting==0)
+					{
+						opPos = k;
+					}
+				}
+			}
+			//Finds Operations and Left and Right expressions
+			String opnd1 = expr.substring (1, opPos);
+			String opnd2 = expr.substring (opPos+1, expr.length()-1);
+			String op = expr.substring (opPos, opPos+1);
+			//Enques the Operation and left and right expressions.
+			Queue.add(op);
+			exprTreeHelper(opnd1);
+			exprTreeHelper(opnd2);
+		}
+	}
+}
+
