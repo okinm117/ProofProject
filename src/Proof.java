@@ -182,9 +182,46 @@ public class Proof {
 		}
 	}
 
-	public static boolean ExpressionChecker(String x) throws IllegalLineException{
-		return false;
+	public static void ExpressionChecker(String x) /*throws IllegalLineException*/{
 		//checks Expression for valid Parentheses, typos
+		int canHold=0;
+		int needRight=0;
+		for(int i=0;i<x.length();i++){
+			char test=x.charAt(i);
+			if (test==')'){
+				needRight--;
+				canHold--;
+				if ((!Character.isLetter(x.charAt(i-1)))||(Character.isLetter(x.charAt(i+1)))){
+					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				}
+			}else if(test=='('){
+				needRight++;
+				canHold++;
+				if ((Character.isLetter(x.charAt(i-1)))||((!Character.isLetter(x.charAt(i+1))))||x.charAt(i+1)!='~'){
+					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				}
+			}else if(test=='='){
+				canHold--;
+				if (x.charAt(i+1)!='>'){
+					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				} else{
+					i++;
+				}
+			}else if(test=='|'||test=='&'){
+				canHold--;
+			}else if(test=='~'){
+				if ((!Character.isLetter(x.charAt(i+1)))&&(x.charAt(i+1)!='(')){
+					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				} else if(Character.isLetter(x.charAt(i+1))){
+					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				}
+			}else if(!Character.isLetter(test)||test=='>'){
+				System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+			}
+			if (canHold<0||needRight<0){
+				System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+			}
+		}
 	}
 
 	public static void LineNumberChecker(String x)throws IllegalLineException{
