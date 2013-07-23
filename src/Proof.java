@@ -181,48 +181,73 @@ public class Proof {
 			throw new IllegalLineException("***Invalid Reason:" + x);
 		}
 	}
-
-	public static void ExpressionChecker(String x) /*throws IllegalLineException*/{
+	public static void ExpressionChecker(String x) throws IllegalLineException*/{
 		//checks Expression for valid Parentheses, typos
+		//checks for nesting, operators within nesting, and syntax
+		int a=0;
+		int b=0;
+		char test=0;
 		int canHold=0;
 		int needRight=0;
+		boolean[][] dictionary=new boolean[][]{{false,false,true,false,true,false,false},
+							{true,true,false,true,false,false,true},
+							{false,false,true,false,true,false},
+							{true,true,false,true,false,false,true},
+							{true,true,false,true,true,false,true},
+							{false,false,true,false,true,false,false},
+							{false,false,false,false,false,true,false}};
+									
 		for(int i=0;i<x.length();i++){
-			char test=x.charAt(i);
+			test=x.charAt(i);
+			a=indexer(test);
+			if (a==100){
+				throw new IllegalLineException("***Invalid Expression: "+x);
+			}
+			if (!dictionary[a][b]){
+				throw new IllegalLineException("***Invalid Expression: "+x);
+			}
 			if (test==')'){
 				needRight--;
-				canHold--;
-				if ((!Character.isLetter(x.charAt(i-1)))||(Character.isLetter(x.charAt(i+1)))){
-					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
-				}
 			}else if(test=='('){
 				needRight++;
 				canHold++;
-				if ((Character.isLetter(x.charAt(i-1)))||((!Character.isLetter(x.charAt(i+1))))||x.charAt(i+1)!='~'){
-					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
-				}
 			}else if(test=='='){
 				canHold--;
-				if (x.charAt(i+1)!='>'){
-					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
-				} else{
-					i++;
-				}
 			}else if(test=='|'||test=='&'){
 				canHold--;
 			}else if(test=='~'){
-				if ((!Character.isLetter(x.charAt(i+1)))&&(x.charAt(i+1)!='(')){
-					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
-				} else if(Character.isLetter(x.charAt(i+1))){
-					System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
-				}
-			}else if(!Character.isLetter(test)||test=='>'){
-				System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+			}else if(!Character.isLetter(test)&&test!='>'){
+				throw new IllegalLineException("***Invalid Expression: "+x);
 			}
 			if (canHold<0||needRight<0){
-				System.out.println("FUCKING SHIT MAN"+x);//throw new IllegalLineException("***Invalid Expression:"+x);
+				throw new IllegalLineException("***Invalid Expression: "+x);
 			}
+			b=a;
+		}
+		if (canHold!=0||needRight!=0){
+			throw new IllegalLineException("***Invalid Expression: "+x);
 		}
 	}
+	public static int indexer(char x)throws IllegalLineException*/{
+		//takes in a char and returns int to be used for indexing with Expression Checker's dictionary
+		//throws IllegalLineException when the char is not of expected type
+		//the final return of 100 is never reached.
+		switch(x){
+			case '|':case'&': return 0;
+			case '(': return 1;
+			case ')': return 2;
+			case '~': return 3;
+			case '=': return 5;
+			case '>': return 6;
+			default: if(!Character.isLetter(x)){
+						throw new IllegalLineException("***Invalid Expression: "+x);
+					}else{
+						return 4;
+					}
+		}
+		return 100;
+	}
+
 
 	public static void LineNumberChecker(String x)throws IllegalLineException{
 		//checks that x is just ints and .
