@@ -50,10 +50,12 @@ public class Proof {
 
 	private TheoremSet myTheoremSet;
 	private LineNumber myLineNumber;
+	private Hashtable<String,Expression> showTable;
 
 	public Proof (TheoremSet theorems) {
 		myTheoremSet=theorems;
 		myLineNumber=new LineNumber();
+		showTable=null;
 		//takes in expression stuff from Theorems
 	}
 
@@ -180,7 +182,7 @@ public class Proof {
 		return rtn;
 	}
 
-	public void reasonDelagation(String[] args)
+	public void reasonDelagation(String[] args) throws IllegalInferenceException
 	{
 		String command = args[0];
 		//System.out.println(args[0]);
@@ -206,9 +208,15 @@ public class Proof {
 		}
 		if (command.equals("show"))
 		{
+			Expression temp = new Expression(args[1]);
+			if (!temp.Queue.peek().equals("=>")){
+				throw new IllegalInferenceException("Expression must include =>: "+ args[1]);
+			}
+			this.showTable.put(myLineNumber.toString(), temp);
+			
 			/*
 			To do: 
-				-convert show to queue (with expression, which takes string)
+				-convert show to queue (with expression, which takes string) (DONE)
 				-Show must check that the value at the top of the queue is an implication
 				-store the converted show queue in a hashtable of shows (line number, queue)
 			*/
@@ -225,7 +233,7 @@ public class Proof {
 				-else throw hands up theyre playing my song
 				-add to theoremset (done)
 			*/
-			myTheoremSet.put(myLineNumber.current(), new Expression(args[1]));
+			myTheoremSet.put(myLineNumber.toString(), new Expression(args[1]));
 			myLineNumber.step();
 		}
 		if (command.equals("mp"))
@@ -252,7 +260,7 @@ public class Proof {
 			passArrayList.add((LinkedList<String>) newThm.Queue.clone());
 			if(mtChecker(passArrayList))
 			{
-				myTheoremSet.put(myLineNumber.current(), newThm);
+				myTheoremSet.put(myLineNumber.toString(), newThm);
 				myLineNumber.step();
 			}
 			else
