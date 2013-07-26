@@ -36,13 +36,14 @@ public class Proof {
 		//check x for Line Errors
 
 		try{
-			LineChecker(x);
+			String[] statement = StringSplitter(x);
+			LineChecker(statement);
 		}catch (IllegalLineException e){
 			throw e;
 		}
 
 		//split string into argument and expression
-		String[] statement = StringSplitter(x);
+		
 		//make Expression
 		
 		reasonDelagation(statement);
@@ -70,17 +71,6 @@ public class Proof {
 		System.out.println(myTheoremSet.myTheorems.toString());
 		return false;
 		//return ((myTheoremSet.get("1").equals(myTheoremSet.get(myLineNumber.toString()))&&(myLineNumber.toString()!="1")));
-	}
-
-	public boolean LineChecker(String x) throws IllegalLineException {
-
-		//checks for Line errors, returns true if isOK, returns false if error
-		return true;
-	}
-
-	public boolean InferenceChecker(LinkedList<String> inferenceQueue) throws  IllegalInferenceException
-	{
-		return true;
 	}
 	
 	//change name
