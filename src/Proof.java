@@ -5,6 +5,9 @@ public class Proof {
 	// need variable to hold a theoremSet
 	// holds line number object showing current position
 	// setAssumption
+
+	//PROBLEM: ~q not stored correctly
+	
 	
 	/*
 		General To-Do
@@ -71,7 +74,7 @@ public class Proof {
 		//steps line number forward one  by calling appropriate method in LineNumber  
 		//based on what expression y was called
 		//adds tree object to proofs theorem set with name lineNumber and expression y
-		
+
 		//check x for Line Errors
 		String[] statement;
 		try{
@@ -82,9 +85,9 @@ public class Proof {
 		}
 
 		//split string into argument and expression
-		
+
 		//make Expression
-		
+
 		reasonDelagation(statement);
 
 		//check expression for inference error
@@ -111,19 +114,21 @@ public class Proof {
 		return false;
 		//return ((myTheoremSet.get("1").equals(myTheoremSet.get(myLineNumber.toString()))&&(myLineNumber.toString()!="1")));
 	}
-	
+
 	//change name
 	public boolean mtChecker(ArrayList<LinkedList<String>> Queues)
 	{
 		//Iterate Over the Tree Expressions from Molles Tollens
 		for(LinkedList curQueue : Queues)
 		{
+			//System.out.println(curQueue.toString());
+
 			//curExpr is a expression to be evaluated
 			if(curQueue.size() > 2)
 			{
 				//Gets Next Symbol
 				String curSymbol = (String) curQueue.pop();
-				
+
 				//Checks Implies
 				if(curSymbol.equals("=>"))
 				{
@@ -131,11 +136,17 @@ public class Proof {
 					boolean bol2 = mtHelperChecker(curQueue,Queues);
 					return implies(bol1,bol2);
 				}
+				if(curSymbol.equals("~"))
+				{
+					
+				}
+				 
+				
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean mtHelperChecker(LinkedList<String> curQueue,ArrayList<LinkedList<String>> Queues)
 	{
 		String curSymbol = (String) curQueue.pop();
@@ -146,7 +157,7 @@ public class Proof {
 			boolean bol2 = mtHelperChecker(curQueue,Queues);
 			return implies(bol1,bol2);
 		}
-		
+
 		for(LinkedList<String> Q : Queues)
 		{
 			if(Q.size() == 1)
@@ -157,10 +168,10 @@ public class Proof {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public static String[] StringSplitter(String x) throws IllegalLineException{
 		String[] rtn=x.split(" ");
 		if ((rtn.length<1)||rtn.length>4){
@@ -168,11 +179,13 @@ public class Proof {
 		}
 		return rtn;
 	}
-	
+
 	public void reasonDelagation(String[] args)
 	{
 		String command = args[0];
-		
+		//System.out.println(args[0]);
+		//System.out.println(args[1]);
+
 		/*
 		Todo:
 			-
@@ -188,7 +201,8 @@ public class Proof {
 		if (command.equals("theorem"))
 		{
 			//add the argument to the theoremset with the key of the theorem name
-			
+			//what if theorem is first, will that ruin show code?
+			this.myTheoremSet.put(args[1], new Expression(args[2]));
 		}
 		if (command.equals("show"))
 		{
@@ -198,7 +212,7 @@ public class Proof {
 				-Show must check that the value at the top of the queue is an implication
 				-store the converted show queue in a hashtable of shows (line number, queue)
 			*/
-			
+
 			myLineNumber.layerMinus();
 		}
 		if (command.equals("assume"))
@@ -224,8 +238,8 @@ public class Proof {
 			
 			
 			*/
-			
-			
+
+
 			//mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
 			myLineNumber.step();
 		}
@@ -257,58 +271,75 @@ public class Proof {
 		}
 		if (command.equals("repeat"))
 		{
-			
+
 		}
-		
-		
+
+
 	}
 
 	public static boolean LineChecker(String[] statement) throws IllegalLineException {
 		//check for correct space placement
 		//checks for Line errors, returns true if isOK, returns false if error
-		int mySize;
+		int numArgs;
+		String command = statement[0];
 		
 		try{
-			mySize=reasonReader(statement[0]);
-			if (statement.length!=mySize){
+			
+			if (command.equals("print"))
+			{
+				numArgs = 1;
+			}
+			else if(command.equals("show")||
+					command.equals("assume"))
+				
+					{numArgs = 2;
+							
+			}
+			else if(command.equals("repeat")
+					||command.equals("ic")
+				    ||command.equals("theorem"))
+				
+					{numArgs = 3;
+			}
+			else if(command.equals("mp")||
+					command.equals("mt")||
+					command.equals("co"))
+				
+					{numArgs = 4;
+			}
+			else{
+				throw new IllegalLineException("***Invalid Reason:" + command);
+			}
+			
+			if (statement.length!=numArgs){
 				throw new IllegalLineException("Invalid Number of Args For:"+ statement [0]);
 			}
-			if (mySize != 1){
-				ExpressionChecker(statement[mySize-1]);
-		
-				if (mySize==3){
+			
+			if (numArgs != 1)
+			{
+				ExpressionChecker(statement[numArgs-1]);
+				
+				if (numArgs==3)
+				{
 					LineNumberChecker(statement[1]);
 				}
-				if (mySize==4){
+				if (numArgs==4)
+				{
 					LineNumberChecker(statement[1]);
 					LineNumberChecker(statement[2]);
 				}
 			}
-		}catch (IllegalLineException e){
+			
+		}
+		catch (IllegalLineException e)
+		{
 			throw e;
 		}
-		
+
 		return true;
 	}
 
-	public static int reasonReader(String x) throws IllegalLineException{
-		//returns int based on what String x is
-		// type 1 : "print" command
-		// type 2 : "show","assume","theorem" commands
-		// type 3 : "ic","repeat", commands
-		// type 4 : "mp","mt","co" commands
-		if (x.equals("print")){
-			return 1;
-		}else if(x.equals("show")||x.equals("assume")||x.equals("theorem")){
-			return 2;
-		}else if(x.equals("repeat")||x.equals("ic")){
-			return 3;
-		}else if(x.equals("mp")||x.equals("mt")||x.equals("co")){
-			return 4;
-		}else{
-			throw new IllegalLineException("***Invalid Reason:" + x);
-		}
-	}
+	
 	public static void ExpressionChecker(String x) throws IllegalLineException{
 		//checks Expression for valid Parentheses, typos
 		//checks for nesting, operators within nesting, and syntax
@@ -324,7 +355,7 @@ public class Proof {
 							{true,true,false,true,true,false,true},
 							{false,false,true,false,true,false,false},
 							{false,false,false,false,false,true,false}};
-									
+
 		for(int i=0;i<x.length();i++){
 			test=x.charAt(i);
 			a=indexer(test);
@@ -391,13 +422,13 @@ public class Proof {
 			} 
 		}
 	}
-	
-	
+
+
 
 	public boolean implies(boolean op1, boolean op2)
 	{
 		//truth tabel processing
-		
+
 		if (op1==true && op2==true)
 		{
 			return true;
@@ -407,7 +438,7 @@ public class Proof {
 			return false;
 		}
 		return true;
-	
+
 	}
 
 }
