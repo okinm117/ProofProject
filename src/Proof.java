@@ -232,7 +232,7 @@ public class Proof {
 			throw new IllegalLineException("***Invalid Reason:" + x);
 		}
 	}
-	public static void ExpressionChecker(String x) throws IllegalLineException*/{
+	public static void ExpressionChecker(String x) throws IllegalLineException{
 		//checks Expression for valid Parentheses, typos
 		//checks for nesting, operators within nesting, and syntax
 		int a=0;
@@ -279,7 +279,7 @@ public class Proof {
 			throw new IllegalLineException("***Invalid Expression: "+x);
 		}
 	}
-	public static int indexer(char x)throws IllegalLineException*/{
+	public static int indexer(char x)throws IllegalLineException{
 		//takes in a char and returns int to be used for indexing with Expression Checker's dictionary
 		//throws IllegalLineException when the char is not of expected type
 		//the final return of 100 is never reached.
