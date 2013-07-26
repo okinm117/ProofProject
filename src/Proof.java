@@ -34,9 +34,9 @@ public class Proof {
 		//adds tree object to proofs theorem set with name lineNumber and expression y
 		
 		//check x for Line Errors
-
+		String[] statement;
 		try{
-			String[] statement = StringSplitter(x);
+			statement = StringSplitter(x);
 			LineChecker(statement);
 		}catch (IllegalLineException e){
 			throw e;
