@@ -119,7 +119,7 @@ public class Proof {
 		for(LinkedList curQueue : Queues)
 		{
 			//curExpr is a expression to be evaluated
-			if(curQueue.size() <= 2)
+			if(curQueue.size() > 2)
 			{
 				//Gets Next Symbol
 				String curSymbol = (String) curQueue.pop();
@@ -373,7 +373,6 @@ public class Proof {
 						return 4;
 					}
 		}
-		return 100;
 	}
 
 
