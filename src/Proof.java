@@ -5,6 +5,45 @@ public class Proof {
 	// need variable to hold a theoremSet
 	// holds line number object showing current position
 	// setAssumption
+	
+	/*
+		General To-Do
+			-Write a inference checker for:
+				//We need a hashtable for this expression in the global scope
+				-User defined expression (takes in two clones: predefined expression, input expression)
+					-Recursive Function that deconstructs both the pre-defined queue and the
+					input-queue and when an operand is found, the input-function operand is assigned
+					to the pre-defined fuction in a hashtable which is used to check for consistancy
+					with every subsequent comparison.
+					
+					pop a value off both and store them
+					
+					if both stored values are operators:
+						if the operators are equivilent
+							call recursively the function on both sides and return only if both'
+							are true
+						else return the false
+						
+					if the stored values are operands:
+						if the values are not in the hashtable
+							add to the hashtable using predefined expression value as the key
+							and the input expression as the vlaue
+						if the operand comparison is inconsistant with the hashtable 
+							return false	
+					return true
+		
+				//Clear the table
+
+				-Contradiction
+				-
+			-
+			-
+			-
+			-
+			-
+			-
+			-
+	*/
 
 	private TheoremSet myTheoremSet;
 	private LineNumber myLineNumber;
@@ -177,6 +216,16 @@ public class Proof {
 		}
 		if (command.equals("mp"))
 		{
+			/*
+			To do:
+				-
+			
+			
+			
+			
+			*/
+			
+			
 			//mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
 			myLineNumber.step();
 		}
