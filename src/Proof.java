@@ -73,6 +73,27 @@ public class Proof {
 		//return ((myTheoremSet.get("1").equals(myTheoremSet.get(myLineNumber.toString()))&&(myLineNumber.toString()!="1")));
 	}
 	
+	public LinkedList<String> findAssumption(LinkedList<String> Queue)
+	{
+		LinkedList<String> rtnQueue = new LinkedList<String>();
+		int count = 1;
+		
+		while(count != 0)
+		{
+			String currentStr = Queue.pop();
+			if(currentStr.equals("=>"))
+			{
+				count = count + 2;
+			}
+			else
+			{
+				count--;
+			}
+			rtnQueue.add(currentStr);
+		}
+		return rtnQueue;
+	}
+	
 	//change name
 	public boolean mtChecker(ArrayList<LinkedList<String>> Queues)
 	{
