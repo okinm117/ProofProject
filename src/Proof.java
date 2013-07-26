@@ -134,16 +134,44 @@ public class Proof {
 	{
 		String command = args[0];
 		
+		/*
+		Todo:
+			-
+		
+			-delegation for user defined theorems.
+				-Find what matches between whats in the proof and whats in the user defined theorem
+				-
+				-	
+				-
+		
+		
+		*/
 		if (command.equals("theorem"))
 		{
+			//add the argument to the theoremset with the key of the theorem name
 			
 		}
 		if (command.equals("show"))
 		{
+			/*
+			To do: 
+				-convert show to queue (with expression, which takes string)
+				-Show must check that the value at the top of the queue is an implication
+				-store the converted show queue in a hashtable of shows (line number, queue)
+			*/
+			
 			myLineNumber.layerMinus();
 		}
 		if (command.equals("assume"))
 		{
+			/*
+			To do: 
+				-if current line number = 2 then continue
+				-else check that the last element in the line number array = 1
+				  Deprecated: (current line number, without last 2 chars = hashtable (key) points to the show expression currently being proved)
+				-else throw hands up theyre playing my song
+				-add to theoremset (done)
+			*/
 			myTheoremSet.put(myLineNumber.current(), new Expression(args[1]));
 			myLineNumber.step();
 		}
