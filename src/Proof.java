@@ -83,6 +83,55 @@ public class Proof {
 		return true;
 	}
 	
+	//change name
+	public boolean mtChecker(ArrayList<LinkedList<String>> Queues)
+	{
+		//Iterate Over the Tree Expressions from Molles Tollens
+		for(LinkedList curQueue : Queues)
+		{
+			//curExpr is a expression to be evaluated
+			if(curQueue.size() <= 2)
+			{
+				//Gets Next Symbol
+				String curSymbol = (String) curQueue.pop();
+				
+				//Checks Implies
+				if(curSymbol.equals("=>"))
+				{
+					boolean bol1 = mtHelperChecker(curQueue,Queues);
+					boolean bol2 = mtHelperChecker(curQueue,Queues);
+					return implies(bol1,bol2);
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean mtHelperChecker(LinkedList<String> curQueue,ArrayList<LinkedList<String>> Queues)
+	{
+		String curSymbol = (String) curQueue.pop();
+
+		if(curSymbol.equals("=>"))
+		{
+			boolean bol1 = mtHelperChecker(curQueue,Queues);
+			boolean bol2 = mtHelperChecker(curQueue,Queues);
+			return implies(bol1,bol2);
+		}
+		
+		for(LinkedList<String> Q : Queues)
+		{
+			if(Q.size() == 1)
+			{
+				if(curSymbol.equals(Q.getFirst()))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	public static String[] StringSplitter(String x) throws IllegalLineException{
 		String[] rtn=x.split(" ");
 		if ((rtn.length<1)||rtn.length>4){
@@ -101,26 +150,38 @@ public class Proof {
 		}
 		if (command.equals("show"))
 		{
-			myLineNumber.layerDown();
+			myLineNumber.layerMinus();
 		}
 		if (command.equals("assume"))
 		{
-			myTheoremSet.put(myLineNumber.current(), args[1]);
+			myTheoremSet.put(myLineNumber.current(), new Expression(args[1]));
 			myLineNumber.step();
 		}
 		if (command.equals("mp"))
 		{
-			mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			//mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
 			myLineNumber.step();
 		}
 		if (command.equals("mt"))
 		{
-			mtChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
-			myLineNumber.step();
+			Expression newThm = new Expression(args[3]);
+			ArrayList<LinkedList<String>> passArrayList = new ArrayList<LinkedList<String>>();
+			passArrayList.add((LinkedList<String>) myTheoremSet.get(args[1]).clone());
+			passArrayList.add((LinkedList<String>) myTheoremSet.get(args[2]).clone());
+			passArrayList.add((LinkedList<String>) newThm.Queue.clone());
+			if(mtChecker(passArrayList))
+			{
+				myTheoremSet.put(myLineNumber.current(), newThm);
+				myLineNumber.step();
+			}
+			else
+			{
+				System.out.println("Invalid Inference");
+			}
 		}
 		if (command.equals("co"))
 		{
-			coChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
+			//coChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
 			myLineNumber.layerUp();
 		}
 		if (command.equals("ic"))
@@ -134,7 +195,7 @@ public class Proof {
 		
 		
 	}
-	
+
 	public static boolean LineChecker(String[] statement) throws IllegalLineException {
 		//check for correct space placement
 		//checks for Line errors, returns true if isOK, returns false if error
