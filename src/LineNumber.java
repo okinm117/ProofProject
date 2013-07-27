@@ -55,8 +55,13 @@ public class LineNumber {
 	/*
 	* not sure what this is for, don't use this please
 	*/
-	public String current() {
-		return currentPosition.toString().substring(1, currentPosition.size()+1);
+	public String currentSuper()
+	{
+		if(this.toString().length()!=1)
+		{
+			return this.toString().substring(0, currentPosition.size()-1);
+		}
+		return this.toString();
 	}
 
 
