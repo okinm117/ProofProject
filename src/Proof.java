@@ -7,6 +7,8 @@ public class Proof {
 	// setAssumption
 
 	//PROBLEM: ~q not stored correctly
+	//suggestion still not quite sure how parser works, but does the parser remember to skip ahead if it encounters '~'?
+	//appears not to right now
 	
 	
 	/*
