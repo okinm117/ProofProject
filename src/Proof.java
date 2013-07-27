@@ -221,7 +221,7 @@ public class Proof {
 		if (command.equals("show"))
 		{
 			Expression temp = new Expression(args[1]);
-			//Wrong yo, you can show a
+			//Wrong yo, you can show a    (assuming you mean a blank expression, that can't be entered into the parser, would get trimmed)
 			//if (!temp.Queue.peek().equals("=>")){
 			//	throw new IllegalInferenceException("Expression must include =>: "+ args[1]);
 			//}
