@@ -288,7 +288,7 @@ public class Proof {
 			
 			if(inferenceChecker(passArrayList))
 			{
-				myTheoremSet.put(myLineNumber.current(), newThm);
+				myTheoremSet.put(this.myLineNumber.toString(), newThm);
 				myLineNumber.step();
 			}
 			else
@@ -301,7 +301,7 @@ public class Proof {
 			if (contradiction((LinkedList<String>)this.myTheoremSet.get(args[1]).clone(), 
 							(LinkedList<String>)this.myTheoremSet.get(args[2]).clone()))
 			{
-				this.myTheoremSet.put(myLineNumber.current(),new Expression(args[3]));
+				this.myTheoremSet.put(this.myLineNumber.toString(),new Expression(args[3]));
 				myLineNumber.step();
 			}
 			else
