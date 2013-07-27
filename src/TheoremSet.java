@@ -12,10 +12,11 @@ public class TheoremSet{
 	public void put (String s, Expression e) {
 		myTheorems.put(s,e.Queue);
 	}
-
-	//public void put (String s, String e) {
-	//	myTheorems.put(s,e);
-	//}
+	
+	public void put (String s, LinkedList<String> e)
+	{
+		myTheorems.put(s,e);
+	}
 
 	public LinkedList<String> get (String s)
 	{
