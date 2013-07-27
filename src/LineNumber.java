@@ -93,6 +93,11 @@ public class LineNumber {
 	public int lineNumberSize() {
 		return currentPosition.size();
 	}
+	//returns whether last bit of LineNumber is 1 (ready to assume)
+	public boolean readyAssume(){
+	    Integer temp = currentPosition.get(currentPosition.size()-1);
+		return temp==1;
+	}
 
 // Ends LineNumber class
  }
