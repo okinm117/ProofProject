@@ -576,9 +576,18 @@ public class Proof {
 	 * 				any of the following lines may be referenced: 1, 2, 3.1, 3.2.1, 3.2.2, or 3.2.3.
 	 * 
 	 * */
-	public boolean checkLineScope(String[] statement)
-	{
-		
+	public boolean checkLineScope(String input)
+	{	String test = input.substring(0,input.length()-1);
+		String temp = myLineNumber.toString();
+		if (!myTheoremSet.myTheorems.containsKey(input)){
+			return false;
+		}else if (input.length()>temp.length()){
+			return false;
+		}else if (Character.getNumericValue((input.charAt(input.length())))>=Character.getNumericValue((temp.charAt(input.length())))){
+			return false;
+		}else if (!temp.startsWith(test)&&input.length()!=1){
+			return false;
+		}
 		
 		return true;
 	}
