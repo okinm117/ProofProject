@@ -252,7 +252,7 @@ public class Proof {
 				-else throw hands up theyre playing my song
 				-add to theoremset (done)
 			*/
-			myTheoremSet.put(myLineNumber.current(), new Expression(args[1]));
+			myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[1]));
 			myLineNumber.step();
 		}
 		if (command.equals("mp"))
