@@ -272,9 +272,9 @@ public class Proof {
 			 * mp 1 2 (b=>c)
 			 * 
 			 * */
-			
-			if(mpChecker(myTheoremSet.get(args[1]),
-							myTheoremSet.get(args[2]),
+
+			if(mpChecker((LinkedList<String>) myTheoremSet.get(args[1]).clone(),
+							(LinkedList<String>) myTheoremSet.get(args[2]).clone(),
 							(LinkedList<String>) new Expression(args[3]).Queue.clone()))
 			{
 				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[3]));
@@ -287,17 +287,12 @@ public class Proof {
 		}
 		if (command.equals("mt"))
 		{
-			Expression newThm = new Expression(args[3]);
 			
-			ArrayList<LinkedList<String>> passArrayList = new ArrayList<LinkedList<String>>();
-			
-			passArrayList.add((LinkedList<String>) myTheoremSet.get(args[1]).clone());
-			passArrayList.add((LinkedList<String>) myTheoremSet.get(args[2]).clone());
-			passArrayList.add((LinkedList<String>) newThm.Queue.clone());
-			
-			if(inferenceChecker(passArrayList))
+			if(mtChecker((LinkedList<String>) myTheoremSet.get(args[1]).clone(),
+						(LinkedList<String>) myTheoremSet.get(args[2]).clone(),
+						(LinkedList<String>) new Expression(args[3]).Queue.clone()))
 			{
-				myTheoremSet.put(this.myLineNumber.toString(), newThm);
+				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[3]));
 				myLineNumber.step();
 			}
 			else
@@ -350,10 +345,17 @@ public class Proof {
 	
 	private boolean mpChecker(LinkedList<String>left,LinkedList<String>middle, LinkedList<String>consequent)
 	{
+		/*
+		 * assume (a=>b)
+		 * assume ((a=>b)=>(b=>c))
+		 * mp 1 2 (b=>c)
+		 * 
+		 * */
+		
 		LinkedList<String> fullExpression;
 		LinkedList<String> predicate;
-		
-		
+
+
 		if (left.size() > middle.size())
 		{
 			fullExpression = left;
@@ -364,16 +366,16 @@ public class Proof {
 			fullExpression = middle;
 			predicate = left;
 		}
-		
+
 		//System.out.println(fullExpression.toArray().toString());
 		//System.out.println(predicate.toArray().toString());
-		
-		if (fullExpression.pop()=="=>")
+
+		if (fullExpression.pop().equals("=>"))
 		{
 			String fullBuff = "";
 
 			//check predicate matches left side of full expression
-			for(int i=0; i < predicate.size()-1;i++)
+			for(int i=0; i < predicate.size();i++)
 			{
 				try
 				{
@@ -385,9 +387,9 @@ public class Proof {
 					return false;
 				}
 			}
-			
+
 			//check consequent matches right side of full expression
-			for(int i=0; i < consequent.size()-1;i++)
+			for(int i=0; i < consequent.size();i++)
 			{
 				try
 				{
@@ -399,18 +401,136 @@ public class Proof {
 					return false;
 				}
 			}
-			
+
 			try
 			{
 				assert fullExpression.size()==0;
+				return true;
 			}
 			catch (Exception e)
 			{
 				return false;
 			}
+			
+		}
+		return false;
+		
+	}
+
+	private boolean mtChecker(LinkedList<String>left,LinkedList<String>middle, LinkedList<String>consequent)
+	{
+		
+		/*
+		 * assume ~~~c
+		 * assume ~~(b=>c)
+		 * mt 1 2 ~~~b
+		 * 
+		 * */
+		
+		/*
+		 * Potential Problems:
+		 * 	- c
+		 * 	- ~(b=>c)
+		 *  - ~b
+		 *  
+		 *  assert size at bottom of method might break things
+		 *  
+		 * */
+		
+		filterTildas(left);
+		filterTildas(middle);
+		filterTildas(consequent);
+		
+		/*
+		System.out.println(left.toString());
+		System.out.println(middle.toString());
+		System.out.println(consequent.toString());
+		*/
+		
+		LinkedList<String> fullExpression;
+		LinkedList<String> predicate;
+
+		if (left.size() > middle.size())
+		{
+			fullExpression = left;
+			predicate = middle;
+		}
+		else
+		{
+			fullExpression = middle;
+			predicate = left;
 		}
 
-		return true;
+		//System.out.println(fullExpression.toArray().toString());
+		//System.out.println(predicate.toArray().toString());
+
+		if (fullExpression.pop().equals("=>"))
+		{
+			String fullBuff = "";
+
+			//check consequent matches left side of full expression, but has tilda
+			assert consequent.peek().equals("~");
+			consequent.pop();
+
+			for(int i=0; i < consequent.size();i++)
+			{
+
+				try
+				{
+					fullBuff = fullExpression.pop();
+					assert consequent.pop().equals(fullBuff);
+				}
+				catch (Exception e)
+				{
+					return false;
+				}
+			}
+
+			//check predicate matches right side of full expression, but has tilda
+			assert predicate.peek().equals("~");
+			predicate.pop();
+
+			for(int i=0; i < predicate.size();i++)
+			{
+
+				try
+				{
+					fullBuff = fullExpression.pop();
+					assert predicate.pop().equals(fullBuff);
+				}
+				catch (Exception e)
+				{
+					return false;
+				}
+			}
+			
+			try
+			{
+				assert fullExpression.size()==0;
+				return true;
+			}
+			catch (Exception e)
+			{
+				return false;
+			}
+			
+		}
+		return false;
+	}
+	
+	
+
+	private void filterTildas(LinkedList<String> queue) {
+		if (queue.size() > 2)
+		{
+			if(queue.peekFirst().equals("~") && 
+					queue.get(1).equals("~")) 
+			{
+				queue.pop();
+				queue.pop();
+				filterTildas(queue);
+			}
+		}
 	}
 	
 	
