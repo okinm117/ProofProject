@@ -52,12 +52,12 @@ public class Proof {
 
 	private TheoremSet myTheoremSet;
 	private LineNumber myLineNumber;
-	private Hashtable<String,Expression> showTable;
+	private Hashtable<String,LinkedList<String>> showTable;
 
 	public Proof (TheoremSet theorems) {
 		myTheoremSet=theorems;
 		myLineNumber=new LineNumber();
-		showTable=new Hashtable<String,Expression>();
+		showTable=new Hashtable<String,LinkedList<String>>();
 		//takes in expression stuff from Theorems
 	}
 
@@ -225,7 +225,7 @@ public class Proof {
 			//if (!temp.Queue.peek().equals("=>")){
 			//	throw new IllegalInferenceException("Expression must include =>: "+ args[1]);
 			//}
-			this.showTable.put(myLineNumber.toString(), temp);
+			this.showTable.put(myLineNumber.toString(), temp.Queue);
 
 			/*
 			To do: 
@@ -321,7 +321,24 @@ public class Proof {
 		}
 		if (command.equals("ic"))
 		{
-			myLineNumber.layerUp();
+			LinkedList<String> proveExpr = myTheoremSet.get(args[1]);
+			LinkedList<String> showExpr = (new Expression(args[2])).Queue;
+			if(showTable.get(myLineNumber.currentSuper()).toString().equals(showExpr.toString()))
+			{
+				if(findAssumption(showExpr).toString().equals(proveExpr.toString()))
+				{
+					myTheoremSet.put(myLineNumber.currentSuper(), showExpr);
+					myLineNumber.layerUp();
+				}
+				else
+				{
+					throw new IllegalInferenceException("Invalid Inference");
+				}
+			}
+			else
+			{
+				throw new IllegalInferenceException("Invalid Inference");
+			}
 		}
 		if (command.equals("repeat"))
 		{
