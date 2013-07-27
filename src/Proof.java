@@ -220,8 +220,14 @@ public class Proof {
 				-Show must check that the value at the top of the queue is an implication
 				-store the converted show queue in a hashtable of shows (line number, queue)
 			*/
-
+			if(ProofChecker.iAmDebugging){
+				System.out.println(myLineNumber);
+				System.out.println(showTable.get(myLineNumber.toString()));
+				System.out.println((myTheoremSet.myTheorems.isEmpty()));
+			}
 			myLineNumber.layerMinus();
+			
+			
 		}
 		if (command.equals("assume"))
 		{
