@@ -321,7 +321,24 @@ public class Proof {
 		}
 		if (command.equals("ic"))
 		{
-			myLineNumber.layerUp();
+			LinkedList<String> proveExpr = myTheoremSet.get(args[1]);
+			LinkedList<String> showExpr = (new Expression(args[2])).Queue;
+			if(showTable.get(myLineNumber.currentSuper()).toString().equals(showExpr.toString()))
+			{
+				if(findAssumption(showExpr).toString().equals(proveExpr.toString()))
+				{
+					myTheoremSet.put(myLineNumber.currentSuper(), showExpr);
+					myLineNumber.layerUp();
+				}
+				else
+				{
+					throw new IllegalInferenceException("Invalid Inference");
+				}
+			}
+			else
+			{
+				throw new IllegalInferenceException("Invalid Inference");
+			}
 		}
 		if (command.equals("repeat"))
 		{
