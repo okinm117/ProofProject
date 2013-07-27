@@ -268,7 +268,7 @@ public class Proof {
 							myTheoremSet.get(args[2]),
 							(LinkedList<String>) new Expression(args[3]).Queue.clone()))
 			{
-				this.myTheoremSet.put(this.myLineNumber.current(), new Expression(args[3]));
+				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[3]));
 				myLineNumber.step();
 			}
 			else
