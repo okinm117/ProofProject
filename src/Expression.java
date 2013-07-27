@@ -42,11 +42,18 @@ public class Expression {
 		if (expr.charAt (0) != '(' && expr.charAt (0) != '~') {
 			Queue.add(Character.toString(expr.charAt(0)));
 		}
-		else if (expr.charAt (0) == '~' && expr.charAt (1) != '(') {
-			Queue.add(expr.charAt(0) + "" + expr.charAt(1));
-		}
-		else if (expr.charAt (0) == '~' && expr.charAt (1) == '(') {
-			Queue.add(Character.toString(expr.charAt(0)));
+		else if (expr.charAt (0) == '~')
+		{
+			if(expr.charAt (1) == '(' || expr.charAt (1) == '~')
+			{
+				Queue.add(Character.toString(expr.charAt(0)));
+				exprTreeHelper(expr.substring(1));
+			}
+			else
+			{
+				Queue.add(Character.toString(expr.charAt(0)));
+				Queue.add(Character.toString(expr.charAt(1)));
+			}
 		}
 		else {
 			// expr is a parenthesized expression.
