@@ -315,6 +315,27 @@ public class Proof {
 
 
 	}
+	
+	public LinkedList<String> findAssumption(LinkedList<String> Queue)
+	{
+		LinkedList<String> rtnQueue = new LinkedList<String>();
+		int count = 1;
+
+		while(count != 0)
+		{
+			String currentStr = Queue.pop();
+			if(currentStr.equals("=>"))
+			{
+				count = count + 2;
+			}
+			else
+			{
+				count--;
+			}
+			rtnQueue.add(currentStr);
+		}
+		return rtnQueue;
+	}
 
 	
 	
