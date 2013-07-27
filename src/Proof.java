@@ -258,17 +258,23 @@ public class Proof {
 		if (command.equals("mp"))
 		{
 			/*
-			To do:
-				-
+			 * assume (a=>b)
+			 * assume ((a=>b)=>(b=>c))
+			 * mp 1 2 (b=>c)
+			 * 
+			 * */
 			
-			
-			
-			
-			*/
-
-
-			//mpChecker(myTheoremSet.get(args[1]),myTheoremSet.get(args[2]),args[3]);
-			myLineNumber.step();
+			if(mpChecker(myTheoremSet.get(args[1]),
+							myTheoremSet.get(args[2]),
+							(LinkedList<String>) new Expression(args[3]).Queue.clone()))
+			{
+				this.myTheoremSet.put(this.myLineNumber.current(), new Expression(args[3]));
+				myLineNumber.step();
+			}
+			else
+			{
+				throw new IllegalInferenceException("Invalid Inference");
+			}
 		}
 		if (command.equals("mt"))
 		{
@@ -315,6 +321,72 @@ public class Proof {
 
 
 	}
+	
+	private boolean mpChecker(LinkedList<String>left,LinkedList<String>middle, LinkedList<String>consequent)
+	{
+		LinkedList<String> fullExpression;
+		LinkedList<String> predicate;
+		
+		
+		if (left.size() > middle.size())
+		{
+			fullExpression = left;
+			predicate = middle;
+		}
+		else
+		{
+			fullExpression = middle;
+			predicate = left;
+		}
+		
+		//System.out.println(fullExpression.toArray().toString());
+		//System.out.println(predicate.toArray().toString());
+		
+		if (fullExpression.pop()=="=>")
+		{
+			String fullBuff = "";
+
+			//check predicate matches left side of full expression
+			for(int i=0; i < predicate.size()-1;i++)
+			{
+				try
+				{
+					fullBuff = fullExpression.pop();
+					assert predicate.pop().equals(fullBuff);
+				}
+				catch (Exception e)
+				{
+					return false;
+				}
+			}
+			
+			//check consequent matches right side of full expression
+			for(int i=0; i < consequent.size()-1;i++)
+			{
+				try
+				{
+					fullBuff = fullExpression.pop();
+					assert consequent.pop().equals(fullBuff);
+				}
+				catch (Exception e)
+				{
+					return false;
+				}
+			}
+			
+			try
+			{
+				assert fullExpression.size()==0;
+			}
+			catch (Exception e)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
 	
 	public LinkedList<String> findAssumption(LinkedList<String> Queue)
 	{
