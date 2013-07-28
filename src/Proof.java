@@ -382,6 +382,19 @@ public class Proof {
 			myLineNumber.step();
 
 		}
+		else
+		{
+			if (checkTheoremEquivalence(myTheoremSet.get(command), new Expression(args[1]).Queue))
+			{
+				this.myTheoremSet.put(command, new Expression(args[1]));
+			}
+			else
+			{
+				throw new IllegalInferenceException(
+						"***Invalid Inference, the provided theorem " +
+						"is not equivalent to stored theorem of same name :" + command);
+			}
+		}
 
 
 	}
@@ -687,48 +700,57 @@ public class Proof {
 	 * */
 	
 	
-	public static boolean LineChecker(String[] statement) throws IllegalLineException {
+	private boolean LineChecker(String[] statement) throws IllegalLineException, IllegalInferenceException {
 		//check for correct space placement
 		//checks for Line errors, returns true if isOK, returns false if error
 		int numArgs;
 		String command = statement[0];
-		
+
 		try{
-			
+
 			if (command.equals("print"))
 			{
 				numArgs = 1;
 			}
 			else if(command.equals("show")||
 					command.equals("assume"))
-				
+
 					{numArgs = 2;
-							
+
 			}
 			else if(command.equals("repeat")
 					||command.equals("ic")
 				    ||command.equals("theorem"))
-				
+
 					{numArgs = 3;
 			}
 			else if(command.equals("mp")||
 					command.equals("mt")||
 					command.equals("co"))
-				
+
 					{numArgs = 4;
 			}
-			else{
-				throw new IllegalLineException("***Invalid Reason:" + command);
+			else
+			{
+				if (this.myTheoremSet.get(command) == null)
+				{
+					throw new IllegalLineException("***Invalid Reason:" + command);
+				}
+				else
+				{
+					numArgs = 2;
+				}
+				
 			}
-			
+
 			if (statement.length!=numArgs){
 				throw new IllegalLineException("Invalid Number of Args For:"+ statement [0]);
 			}
-			
+
 			if (numArgs != 1)
 			{
 				ExpressionChecker(statement[numArgs-1]);
-				
+
 				if (numArgs==3)
 				{
 					LineNumberChecker(statement[1]);
@@ -739,13 +761,20 @@ public class Proof {
 					LineNumberChecker(statement[2]);
 				}
 			}
-			
+
 		}
 		catch (IllegalLineException e)
 		{
 			throw e;
 		}
 
+		return true;
+	}
+
+
+	private boolean checkTheoremEquivalence( LinkedList<String> storedTheoremQueue, LinkedList<String> userTheoremQueue) {
+		System.out.print(this.myTheoremSet.get("dn"));
+		
 		return true;
 	}
 
