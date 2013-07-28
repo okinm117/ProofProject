@@ -604,6 +604,45 @@ public class Proof {
 		return rtnQueue;
 	}
 
+	public LinkedList<String> findConsequent(LinkedList<String> Queue)
+	{
+		int count = 1;
+		int i = 1;
+
+		while(count != 0)
+		{
+			String currentStr = Queue.get(i);
+			if(currentStr.equals("=>"))
+			{
+				count++;
+			}
+			else
+			{
+				count--;
+			}
+			i++;
+		}
+
+		LinkedList<String> rtnQueue = new LinkedList<String>();
+		count = 1;
+
+		while(count != 0)
+		{
+			String currentStr = Queue.get(i);
+			if(currentStr.equals("=>"))
+			{
+				count++;
+			}
+			else
+			{
+				count--;
+			}
+			rtnQueue.add(currentStr);
+			i++;
+		}
+		
+		return rtnQueue;
+	}
 	
 	
 	/*
