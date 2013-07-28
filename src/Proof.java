@@ -706,17 +706,17 @@ public class Proof {
 	 * 				any of the following lines may be referenced: 1, 2, 3.1, 3.2.1, 3.2.2, or 3.2.3.
 	 * 
 	 * */
-	public boolean checkLineScope(String input)
+	public boolean checkLineScope(String input) throws IllegalLineException
 	{	String test = input.substring(0,input.length()-1);
 		String temp = myLineNumber.toString();
 		if (!myTheoremSet.myTheorems.containsKey(input)){
-			return false;
+			throw new IllegalLineException("Line Number is not in scope: "+input);
 		}else if (input.length()>temp.length()){
-			return false;
-		}else if (Character.getNumericValue((input.charAt(input.length())))>=Character.getNumericValue((temp.charAt(input.length())))){
-			return false;
+			throw new IllegalLineException("Line Number is too deep to be in scope: "+input);
+		}else if (Character.getNumericValue((input.charAt(input.length()-1)))>=Character.getNumericValue((temp.charAt(input.length()-1)))){
+			throw new IllegalLineException("Line Number is not in scope: "+input);
 		}else if (!temp.startsWith(test)&&input.length()!=1){
-			return false;
+			throw new IllegalLineException("Line Number is not in scope: "+input);
 		}
 		
 		return true;
@@ -789,11 +789,14 @@ public class Proof {
 				if (numArgs==3)
 				{
 					LineNumberChecker(statement[1]);
+					checkLineScope(statement[1]);
 				}
 				if (numArgs==4)
 				{
 					LineNumberChecker(statement[1]);
 					LineNumberChecker(statement[2]);
+					checkLineScope(statement[1]);
+					checkLineScope(statement[2]);
 				}
 			}
 
