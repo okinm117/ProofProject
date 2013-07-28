@@ -17,6 +17,8 @@ public class Proof {
 			-Add calls to checkLineScope where appropriate
 			
 			-Add support for & and |
+			
+			-update line checker
 		
 			-Write a inference checker for:
 				//We need a hashtable for this expression in the global scope
