@@ -15,6 +15,8 @@ public class Proof {
 		General To-Do
 			
 			-Add calls to checkLineScope where appropriate
+			
+			-Add support for & and |
 		
 			-Write a inference checker for:
 				//We need a hashtable for this expression in the global scope
