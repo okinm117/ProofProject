@@ -605,7 +605,7 @@ public class Proof {
 			String currentStr = Queue.get(i);
 			if(currentStr.equals("=>"))
 			{
-				count = count + 2;
+				count++;
 			}
 			else
 			{
