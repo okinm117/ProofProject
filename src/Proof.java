@@ -292,7 +292,7 @@ public class Proof {
 				myLineNumber.step();
 				return;
 			}
-			else if (!findAssumption(temp).toString().equals((new Expression(args[1])).Queue.toString()))
+			else if (!findAssumption(temp).toString().equals((new Expression(args[1])).Queue.toString())||!temp.peek().equals("=>"))
 			{
 				throw new IllegalInferenceException("Can Only Assume Left Side of => or ~ of Show: "+ args[1]);
 			}
