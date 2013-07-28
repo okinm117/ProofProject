@@ -197,7 +197,11 @@ public class Proof {
 	public static String[] StringSplitter(String x) throws IllegalLineException{
 		String[] rtn=x.split(" ");
 		if ((rtn.length<1)||rtn.length>4){
-			throw new IllegalLineException("***Bad Input Format");
+			throw new IllegalLineException("***Too many Arguments:" + x);
+		}else for(int i=0;i<rtn.length;i++){
+			if (rtn[i]==null){
+				throw new IllegalLineException("***Use only one space between Arguments" + x);
+			}
 		}
 		return rtn;
 	}
