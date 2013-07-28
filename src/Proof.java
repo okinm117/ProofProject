@@ -642,6 +642,14 @@ public class Proof {
 			{
 				count++;
 			}
+			else if(currentStr.equals("&"))
+			{
+				count++;
+			}
+			else if(currentStr.equals("|"))
+			{
+				count++;
+			}
 			else
 			{
 				count--;
@@ -664,6 +672,14 @@ public class Proof {
 			{
 				count++;
 			}
+			else if(currentStr.equals("&"))
+			{
+				count++;
+			}
+			else if(currentStr.equals("|"))
+			{
+				count++;
+			}
 			else
 			{
 				count--;
@@ -678,6 +694,14 @@ public class Proof {
 		{
 			String currentStr = Queue.get(i);
 			if(currentStr.equals("=>"))
+			{
+				count++;
+			}
+			else if(currentStr.equals("&"))
+			{
+				count++;
+			}
+			else if(currentStr.equals("|"))
 			{
 				count++;
 			}
