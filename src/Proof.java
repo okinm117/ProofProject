@@ -20,6 +20,7 @@ public class Proof {
 			
 			-update line checker
 		
+			-check proper protection status for variables and methods
 			-Write a inference checker for:
 				//We need a hashtable for this expression in the global scope
 				-User defined expression (takes in two clones: predefined expression, input expression)
