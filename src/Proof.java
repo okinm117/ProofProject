@@ -713,7 +713,7 @@ public class Proof {
 			throw new IllegalLineException("Line Number is not in scope: "+input);
 		}else if (input.length()>temp.length()){
 			throw new IllegalLineException("Line Number is too deep to be in scope: "+input);
-		}else if (Character.getNumericValue((input.charAt(input.length())))>=Character.getNumericValue((temp.charAt(input.length())))){
+		}else if (Character.getNumericValue((input.charAt(input.length()-1)))>=Character.getNumericValue((temp.charAt(input.length()-1)))){
 			throw new IllegalLineException("Line Number is not in scope: "+input);
 		}else if (!temp.startsWith(test)&&input.length()!=1){
 			throw new IllegalLineException("Line Number is not in scope: "+input);
