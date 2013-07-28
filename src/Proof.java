@@ -108,9 +108,9 @@ public class Proof {
 	public boolean isComplete ( ) {
 		//stops looping in Proofchecker by returning true
 		//returns true when expression in line = expression inside
+		//return false;
 		System.out.println(myTheoremSet.myTheorems.toString());
-		return false;
-		//return ((myTheoremSet.get("1").equals(myTheoremSet.get(myLineNumber.toString()))&&(myLineNumber.toString()!="1")));
+		return showTable.isEmpty();
 	}
 
 	//change name
@@ -237,6 +237,8 @@ public class Proof {
 			//if (!temp.Queue.peek().equals("=>")){
 			//	throw new IllegalInferenceException("Expression must include =>: "+ args[1]);
 			//}
+
+			System.out.println(temp.Queue);
 			this.showTable.put(myLineNumber.toString(), temp.Queue);
 
 			/*
@@ -250,20 +252,43 @@ public class Proof {
 				System.out.println(showTable.get(myLineNumber.toString()));
 				System.out.println((myTheoremSet.myTheorems.isEmpty()));
 			}
-			myLineNumber.layerMinus();
-
+			if(myLineNumber.toString().equals("1"))
+			{
+				myLineNumber.step();
+			}
+			else
+			{
+				myLineNumber.layerMinus();
+			}
 
 		}
 		if (command.equals("assume"))
 		{
-			if (!myLineNumber.readyAssume()){
-				throw new IllegalInferenceException("Must Use assume After a show");
+			if(!myLineNumber.toString().equals("2"))
+			{
+				if (!myLineNumber.readyAssume())
+				{
+					throw new IllegalInferenceException("Must Use assume After a show");
+				}
 			}
-			Queue temp = showTable.get(myLineNumber.currentSuper());
-			if (temp==null||temp.toString()!=args[1]){
+			
+			LinkedList<String> temp = showTable.get(myLineNumber.currentSuper());
+			System.out.println(myLineNumber.currentSuper());
+
+			if (temp==null)
+			{
 				throw new IllegalInferenceException("Show was not made at LineNumber: "+temp);
-			}else if (temp.toString()!=args[1]){
-				throw new IllegalInferenceException("Can Only Assume Left Side of =>: "+ args[1]);
+			}
+			else if(temp.toString().equals("[~, "+(new Expression(args[1])).Queue.toString().substring(1))
+					||("[~, "+temp.toString().substring(1)).equals((new Expression(args[1])).Queue.toString()))
+			{
+				myTheoremSet.put(myLineNumber.toString(), new Expression(args[1]));
+				myLineNumber.step();
+				return;
+			}
+			else if (!findAssumption(temp).toString().equals((new Expression(args[1])).Queue.toString()))
+			{
+				throw new IllegalInferenceException("Can Only Assume Left Side of => or ~ of Show: "+ args[1]);
 			}
 			/*
 			To do: 
@@ -332,10 +357,14 @@ public class Proof {
 			LinkedList<String> showExpr = (new Expression(args[2])).Queue;
 			if(showTable.get(myLineNumber.currentSuper()).toString().equals(showExpr.toString()))
 			{
-				if(findAssumption(showExpr).toString().equals(proveExpr.toString()))
+				if(findConsequent(showExpr).toString().equals(proveExpr.toString()))
 				{
+					showTable.remove(myLineNumber.currentSuper());
 					myTheoremSet.put(myLineNumber.currentSuper(), showExpr);
-					myLineNumber.layerUp();
+					if(showTable.size()!=0)
+					{
+						myLineNumber.layerUp();
+					}
 				}
 				else
 				{
