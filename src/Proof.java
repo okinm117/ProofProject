@@ -349,15 +349,18 @@ public class Proof {
 			if (contradiction((LinkedList<String>)this.myTheoremSet.get(args[1]).clone(), 
 							(LinkedList<String>)this.myTheoremSet.get(args[2]).clone()))
 			{
-				this.storeprint(args);
-				this.myTheoremSet.put(this.myLineNumber.toString(),new Expression(args[3]));
-				myLineNumber.layerUp();
+				showTable.remove(myLineNumber.currentSuper());
+				this.myTheoremSet.put(myLineNumber.currentSuper(),new Expression(args[3]));
+				if(showTable.size()!=0)
+				{
+					myLineNumber.layerUp();
+				}
 			}
 			else
 			{
 				throw new IllegalInferenceException("Invalid Inference");
 			}
-			
+
 		}
 		if (command.equals("ic"))
 		{
