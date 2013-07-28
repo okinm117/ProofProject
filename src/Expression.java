@@ -73,12 +73,22 @@ public class Expression {
 				{
 					nesting--;
 				}
-				if(Character.toString(expr.charAt(k)).equals("=") && Character.toString(expr.charAt(k+1)).equals(">"))
+				if(nesting==0)
 				{
-					if(nesting==0)
+					if(Character.toString(expr.charAt(k)).equals("=") && Character.toString(expr.charAt(k+1)).equals(">"))
 					{
 						opPos = k;
 						opPosLen++;
+						k++;
+					}
+					if(Character.toString(expr.charAt(k)).equals("|"))
+					{
+						opPos = k;
+						k++;
+					}
+					if(Character.toString(expr.charAt(k)).equals("&"))
+					{
+						opPos = k;
 						k++;
 					}
 				}
