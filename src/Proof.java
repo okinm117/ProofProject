@@ -61,11 +61,13 @@ public class Proof {
 	private TheoremSet myTheoremSet;
 	private LineNumber myLineNumber;
 	private Hashtable<String,LinkedList<String>> showTable;
+	private ArrayList<String> printList;
 
 	public Proof (TheoremSet theorems) {
 		myTheoremSet=theorems;
 		myLineNumber=new LineNumber();
 		showTable=new Hashtable<String,LinkedList<String>>();
+		printList=new ArrayList<String>();
 		//takes in expression stuff from Theorems
 	}
 
@@ -228,6 +230,7 @@ public class Proof {
 		{
 			//add the argument to the theoremset with the key of the theorem name
 			//what if theorem is first, will that ruin show code?
+			this.storeprint(args);
 			this.myTheoremSet.put(args[1], new Expression(args[2]));
 		}
 		if (command.equals("show"))
@@ -239,6 +242,7 @@ public class Proof {
 			//}
 
 			System.out.println(temp.Queue);
+			this.storeprint(args);
 			this.showTable.put(myLineNumber.toString(), temp.Queue);
 
 			/*
@@ -298,6 +302,7 @@ public class Proof {
 				-else throw hands up theyre playing my song
 				-add to theoremset (done)
 			*/
+			this.storeprint(args);
 			myTheoremSet.put(myLineNumber.toString(), new Expression(args[1]));
 			myLineNumber.step();
 		}
@@ -314,6 +319,7 @@ public class Proof {
 							(LinkedList<String>) myTheoremSet.get(args[2]).clone(),
 							(LinkedList<String>) new Expression(args[3]).Queue.clone()))
 			{
+				this.storeprint(args);
 				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[3]));
 				myLineNumber.step();
 			}
@@ -329,6 +335,7 @@ public class Proof {
 						(LinkedList<String>) myTheoremSet.get(args[2]).clone(),
 						(LinkedList<String>) new Expression(args[3]).Queue.clone()))
 			{
+				this.storeprint(args);
 				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[3]));
 				myLineNumber.step();
 			}
@@ -342,6 +349,7 @@ public class Proof {
 			if (contradiction((LinkedList<String>)this.myTheoremSet.get(args[1]).clone(), 
 							(LinkedList<String>)this.myTheoremSet.get(args[2]).clone()))
 			{
+				this.storeprint(args);
 				this.myTheoremSet.put(this.myLineNumber.toString(),new Expression(args[3]));
 				myLineNumber.layerUp();
 			}
@@ -359,6 +367,7 @@ public class Proof {
 			{
 				if(findConsequent(showExpr).toString().equals(proveExpr.toString()))
 				{
+					this.storeprint(args);
 					showTable.remove(myLineNumber.currentSuper());
 					myTheoremSet.put(myLineNumber.currentSuper(), showExpr);
 					if(showTable.size()!=0)
@@ -378,6 +387,14 @@ public class Proof {
 		}
 		if (command.equals("repeat"))
 		{
+			String rpt=new String();
+				for (int i=0;i<printList.size();i++){
+					if(printList.get(i).startsWith(myLineNumber.toString())){
+						String [] temp = printList.get(i).split(" ");
+						rpt=temp[temp.length-1];
+					}
+				}
+				this.storeprint(args,rpt);
 			myTheoremSet.put(myLineNumber.toString(), myTheoremSet.myTheorems.get(args[1]));
 			myLineNumber.step();
 
@@ -386,6 +403,7 @@ public class Proof {
 		{
 			if (checkTheoremEquivalence(myTheoremSet.get(command), new Expression(args[1]).Queue))
 			{
+				this.storeprint(args);
 				this.myTheoremSet.put(command, new Expression(args[1]));
 			}
 			else
@@ -399,6 +417,23 @@ public class Proof {
 
 	}
 	
+	public void storeprint(String[] args){
+		//adds to printList
+		String output= myLineNumber.toString();
+		for (int i = 0;i<args.length;i++){
+			output+=" "+args[i];
+		}
+		this.printList.add(output);
+	}
+	public void storeprint(String[] args, String x){
+		//adds to printList
+		String output= myLineNumber.toString();
+		for (int i = 0;i<args.length;i++){
+			output+=" "+args[i];
+		}
+		output+=" "+x;
+		this.printList.add(output);
+	}
 	private boolean mpChecker(LinkedList<String>left,LinkedList<String>middle, LinkedList<String>consequent)
 	{
 		/*
