@@ -926,11 +926,12 @@ public class Proof {
 				}
 			}
 
-		}
+		
 		if (command.equals("repeat")){
 			if(!new Expression(statement[2]).Queue.equals(myTheoremSet.myTheorems.get(statement[1]))){
 				throw new IllegalLineException("named Expression is not at given line: "+ statement[2]);
 			}
+		}
 		}
 		catch (IllegalLineException e)
 		{
