@@ -21,7 +21,6 @@ public class Expression {
 	// Class Constructor: Takes expression and passes to exprTreeHelper
 	public Expression (String s) {
 		Queue = new LinkedList<String>();
-		System.out.println(s);
 		exprTreeHelper(s);
 	}
 	public String toString ()
@@ -85,12 +84,10 @@ public class Expression {
 					if(Character.toString(expr.charAt(k)).equals("|"))
 					{
 						opPos = k;
-						k++;
 					}
 					if(Character.toString(expr.charAt(k)).equals("&"))
 					{
 						opPos = k;
-						k++;
 					}
 				}
 			}
@@ -98,11 +95,9 @@ public class Expression {
 			String opnd1 = expr.substring (1, opPos);
 			String opnd2 = expr.substring (opPos+opPosLen+1, expr.length()-1);
 			String op = expr.substring (opPos, opPos+opPosLen+1);
+			
 			//Enques the Operation and left and right expressions.
 			Queue.add(op);
-
-			System.out.println(opnd1);
-			System.out.println(opnd2);
 			
 			exprTreeHelper(opnd1);
 			exprTreeHelper(opnd2);
