@@ -402,6 +402,12 @@ public class Proof {
 			myLineNumber.step();
 
 		}
+		if (command.equals("print"))
+		{
+			for (int i=0;i<printList.size();i++){
+				System.out.println(printList.get(i));
+			}
+		}
 		else
 		{
 			if (checkTheoremEquivalence(myTheoremSet.get(command), new Expression(args[1]).Queue))
