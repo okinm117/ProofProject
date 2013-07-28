@@ -351,6 +351,7 @@ public class Proof {
 			if (contradiction((LinkedList<String>)this.myTheoremSet.get(args[1]).clone(), 
 							(LinkedList<String>)this.myTheoremSet.get(args[2]).clone()))
 			{
+				this.storeprint(args);
 				showTable.remove(myLineNumber.currentSuper());
 				this.myTheoremSet.put(myLineNumber.currentSuper(),new Expression(args[3]));
 				if(showTable.size()!=0)
