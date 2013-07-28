@@ -378,6 +378,8 @@ public class Proof {
 		}
 		if (command.equals("repeat"))
 		{
+			myTheoremSet.put(myLineNumber.toString(), myTheoremSet.myTheorems.get(args[1]));
+			myLineNumber.step();
 
 		}
 
