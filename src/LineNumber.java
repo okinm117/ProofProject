@@ -59,9 +59,9 @@ public class LineNumber {
 	{
 		if(this.toString().length()!=1)
 		{
-			return this.toString().substring(0, currentPosition.size()-1);
+			return this.toString().substring(0, this.toString().length()-2);
 		}
-		return this.toString();
+		return "1";
 	}
 
 
