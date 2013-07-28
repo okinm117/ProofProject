@@ -392,17 +392,16 @@ public class Proof {
 		}
 		if (command.equals("repeat"))
 		{
-			String rpt=new String();
-				for (int i=0;i<printList.size();i++){
-					if(printList.get(i).startsWith(myLineNumber.toString())){
-						String [] temp = printList.get(i).split(" ");
-						rpt=temp[temp.length-1];
-					}
-				}
-				this.storeprint(args,rpt);
+			LinkedList<String> proveExpr = showTable.get(myLineNumber.currentSuper());
+			LinkedList<String> showExpr = (new Expression(args[2])).Queue;
+			if (!proveExpr.equals(showExpr)){
+				throw new IllegalInferenceException("Repeated expression doesn't match unproven show:"+ args[2]);
+			}
+			showTable.remove(myLineNumber.currentSuper());
+			myTheoremSet.put(myLineNumber.currentSuper(), showExpr);
+			this.storeprint(args);
 			myTheoremSet.put(myLineNumber.toString(), myTheoremSet.myTheorems.get(args[1]));
 			myLineNumber.step();
-
 		}
 		if (command.equals("print"))
 		{
@@ -434,15 +433,7 @@ public class Proof {
 		}
 		this.printList.add(output);
 	}
-	public void storeprint(String[] args, String x){
-		//adds to printList
-		String output= myLineNumber.toString();
-		for (int i = 0;i<args.length;i++){
-			output+=" "+args[i];
-		}
-		output+=" "+x;
-		this.printList.add(output);
-	}
+
 	private boolean mpChecker(LinkedList<String>left,LinkedList<String>middle, LinkedList<String>consequent)
 	{
 		/*
@@ -934,6 +925,11 @@ public class Proof {
 				}
 			}
 
+		}
+		if (command.equals("repeat")){
+			if(!new Expression(statement[2]).Queue.equals(myTheoremSet.myTheorems.get(statement[1]))){
+				throw new IllegalLineException("named Expression is not at given line: "+ statement[2]);
+			}
 		}
 		catch (IllegalLineException e)
 		{
