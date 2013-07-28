@@ -650,7 +650,7 @@ public class Proof {
 			{
 				count++;
 			}
-			else
+			else if(!currentStr.equals("~"))
 			{
 				count--;
 			}
@@ -680,7 +680,7 @@ public class Proof {
 			{
 				count++;
 			}
-			else
+			else if(!currentStr.equals("~"))
 			{
 				count--;
 			}
@@ -705,7 +705,7 @@ public class Proof {
 			{
 				count++;
 			}
-			else
+			else if(!currentStr.equals("~"))
 			{
 				count--;
 			}
