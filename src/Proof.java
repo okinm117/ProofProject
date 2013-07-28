@@ -343,7 +343,7 @@ public class Proof {
 							(LinkedList<String>)this.myTheoremSet.get(args[2]).clone()))
 			{
 				this.myTheoremSet.put(this.myLineNumber.toString(),new Expression(args[3]));
-				myLineNumber.step();
+				myLineNumber.layerUp();
 			}
 			else
 			{
