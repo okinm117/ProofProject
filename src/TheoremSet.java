@@ -22,9 +22,4 @@ public class TheoremSet{
 	{
 		return myTheorems.get(s);
 	}
-
-	public boolean contains (String s)
-	{
-		return myTheorems.containsValue(s);
-	}
 }
