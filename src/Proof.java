@@ -62,12 +62,14 @@ public class Proof {
 	private LineNumber myLineNumber;
 	private Hashtable<String,LinkedList<String>> showTable;
 	private ArrayList<String> printList;
+	private Hashtable<String,String> operands;
 
 	public Proof (TheoremSet theorems) {
 		myTheoremSet=theorems;
 		myLineNumber=new LineNumber();
 		showTable=new Hashtable<String,LinkedList<String>>();
 		printList=new ArrayList<String>();
+		operands = new Hashtable<String,String>();
 		//takes in expression stuff from Theorems
 	}
 
@@ -408,12 +410,12 @@ public class Proof {
 				System.out.println(printList.get(i));
 			}
 		}
-		else
+		else if (this.myTheoremSet.get(command) != null)
 		{
-			if (checkTheoremEquivalence(myTheoremSet.get(command), new Expression(args[1]).Queue))
+			if (checkTheoremEquivalence((LinkedList<String>) myTheoremSet.get(command).clone(), new Expression(args[1]).Queue))
 			{
-				this.storeprint(args);
-				this.myTheoremSet.put(command, new Expression(args[1]));
+				this.myTheoremSet.put(this.myLineNumber.toString(), new Expression(args[1]));
+				this.myLineNumber.step();
 			}
 			else
 			{
@@ -422,8 +424,6 @@ public class Proof {
 						"is not equivalent to stored theorem of same name :" + command);
 			}
 		}
-
-
 	}
 	
 	public void storeprint(String[] args){
@@ -618,6 +618,107 @@ public class Proof {
 		return false;
 	}
 	
+	
+	private boolean checkTheoremEquivalence( LinkedList<String> storedTheoremQueue, LinkedList<String> inputTheoremQueue) {
+		//System.out.print(this.myTheoremSet.get("dn"));
+		
+		//Base Case
+			if (storedTheoremQueue.size() == 0 && inputTheoremQueue.size() == 0)
+			{
+				return true;
+			}
+			if (storedTheoremQueue.size() == 0 && inputTheoremQueue.size() != 0)
+			{
+				return false;
+			}
+			if (storedTheoremQueue.size() != 0 && inputTheoremQueue.size() == 0)
+			{
+				return false;
+			}
+		
+		if (storedTheoremQueue.peek().equals("=>")&&
+				inputTheoremQueue.peek().equals("=>"))
+		{
+			storedTheoremQueue.pop();
+			inputTheoremQueue.pop();
+			return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+		}
+		if (storedTheoremQueue.peek().equals("&")&&
+				inputTheoremQueue.peek().equals("&"))
+		{
+			storedTheoremQueue.pop();
+			inputTheoremQueue.pop();
+			return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+		}
+		if (storedTheoremQueue.peek().equals("|")&&
+				inputTheoremQueue.peek().equals("|"))
+		{
+			storedTheoremQueue.pop();
+			inputTheoremQueue.pop();
+			return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+		}
+		if (storedTheoremQueue.peek().equals("~")&&
+				inputTheoremQueue.peek().equals("~"))
+		{
+			storedTheoremQueue.pop();
+			inputTheoremQueue.pop();
+			return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+		}
+		else 
+		{
+			//Finds Left and Right Operand
+
+			String storedOperand = storedTheoremQueue.pop();
+			String inputOperand = inputTheoremQueue.pop();
+			
+			if(inputOperand.equals("&") || inputOperand.equals("|") || inputOperand.equals("=>") || inputOperand.equals("~"))
+			{
+				int numberOfOperations = 2;
+				if(inputOperand.equals("~"))
+				{
+					numberOfOperations--;
+				}
+				while(numberOfOperations != 0)
+				{
+
+					String currentStr = inputTheoremQueue.pop();
+					if(currentStr.equals("=>"))
+					{
+						numberOfOperations++;
+					}
+					if(currentStr.equals("&"))
+					{
+						numberOfOperations++;
+					}
+					if(currentStr.equals("|"))
+					{
+						numberOfOperations++;
+					}
+					else if(!currentStr.equals("~"))
+					{
+						numberOfOperations--;
+					}
+					inputOperand+=currentStr;
+				}
+			}
+			System.out.println(storedOperand);
+			System.out.println(inputOperand);
+			if (this.operands.get(storedOperand) != null)
+			{
+				if (operands.get(storedOperand).equals(inputOperand))
+				{
+					return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+				}
+				return false;
+			}
+			else
+			{
+				this.operands.put(storedOperand, inputOperand);
+			}
+			return checkTheoremEquivalence(storedTheoremQueue,inputTheoremQueue);
+		}
+		
+	}
 	
 
 	private void filterTildas(LinkedList<String> queue) {
