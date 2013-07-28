@@ -641,27 +641,26 @@ public class Proof {
 		 *  
 		 */
 		LinkedList<String> rtnQueue = new LinkedList<String>();
-		int count = 1;
+		int numberOfOperands = 1;
 		int i=1;
-		while(count != 0)
+		while(numberOfOperands != 0)
 		{
-			
 			String currentStr = Queue.get(i);
 			if(currentStr.equals("=>"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("&"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("|"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(!currentStr.equals("~"))
 			{
-				count--;
+				numberOfOperands--;
 			}
 			rtnQueue.add(currentStr);
 			i++;
@@ -671,59 +670,60 @@ public class Proof {
 
 	public LinkedList<String> findConsequent(LinkedList<String> Queue)
 	{
-		int count = 1;
+		int numberOfOperands = 1;
 		int i = 1;
 
-		while(count != 0)
+		while(numberOfOperands != 0)
 		{
 			String currentStr = Queue.get(i);
 			if(currentStr.equals("=>"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("&"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("|"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(!currentStr.equals("~"))
 			{
-				count--;
+				numberOfOperands--;
 			}
 			i++;
 		}
 
 		LinkedList<String> rtnQueue = new LinkedList<String>();
-		count = 1;
+		numberOfOperands = 1;
 
-		while(count != 0)
+		while(numberOfOperands != 0)
 		{
 			String currentStr = Queue.get(i);
 			if(currentStr.equals("=>"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("&"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(currentStr.equals("|"))
 			{
-				count++;
+				numberOfOperands++;
 			}
 			else if(!currentStr.equals("~"))
 			{
-				count--;
+				numberOfOperands--;
 			}
 			rtnQueue.add(currentStr);
 			i++;
 		}
-		
+
 		return rtnQueue;
 	}
+
 	
 	
 	/*
