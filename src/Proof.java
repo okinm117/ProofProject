@@ -943,13 +943,6 @@ public class Proof {
 		return true;
 	}
 
-
-	private boolean checkTheoremEquivalence( LinkedList<String> storedTheoremQueue, LinkedList<String> userTheoremQueue) {
-		System.out.print(this.myTheoremSet.get("dn"));
-		
-		return true;
-	}
-
 	
 	public static void ExpressionChecker(String x) throws IllegalLineException{
 		//checks Expression for valid Parentheses, typos
