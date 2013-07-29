@@ -30,6 +30,15 @@ Derek Weinmuller[cs61bl-os]-
 
 Niko Gomez [cs61bl-or]-
 
+  Programed Logic Stuff
+  	coded Expression Class
+  	coded MyTheoremSet
+  	coded on ic
+  	coded on co
+  	coded on assume
+  	coded on findAssumption
+  	coded on findConsequent
+
 Tohma Judge [cs61bl-pg]-
 
 Ryan Davis [cs61bl-ot]-
