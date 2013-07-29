@@ -5,15 +5,11 @@ import java.util.LinkedList;
  * Black box description:
  *
  * Input = String, lowercased, no whitespace
- * Output = tree data structure which is organized by operators
- * sent into Theorem set to be accesed by the Proof class.
+ * Output = Linked List of Strings which represents the order of operations if put into a Queue
+ * sent into Theorem set to be accessed by the Proof class.
  *
  *
  */
-
-//PROBLEM: Expressions can be stacked different ways, depending on how the 
-// 			parenthasis are arranged..
-
 public class Expression {
 
 	//Root of Tree (First Operator Usually)
@@ -38,7 +34,9 @@ public class Expression {
 	}
 	//Parser of Expression into Tree
 	private void exprTreeHelper (String expr) {
-		//System.out.print(expr);
+		if(ProofChecker.iAmDebugging){
+		System.out.print(expr);
+		}
 		if (expr.charAt (0) != '(' && expr.charAt (0) != '~') {
 			Queue.add(Character.toString(expr.charAt(0)));
 		}
@@ -96,7 +94,7 @@ public class Expression {
 			String opnd2 = expr.substring (opPos+opPosLen+1, expr.length()-1);
 			String op = expr.substring (opPos, opPos+opPosLen+1);
 			
-			//Enques the Operation and left and right expressions.
+			//Enqueues the Operation and left and right expressions.
 			Queue.add(op);
 			
 			exprTreeHelper(opnd1);
@@ -104,3 +102,4 @@ public class Expression {
 		}
 	}
 }
+
