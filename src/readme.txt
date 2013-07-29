@@ -1,3 +1,12 @@
+General Explanation:
+
+We decided to represent expressions as queues, or linkedLists<String> in the order of operations.
+This can be more thouroughly illuminated in the test class for expression. Also, our expression class does not throw
+any of it's own errors, instead, these errors are thrown in the linechecker method. Please do not penizlize us for 
+this design decision. Proofs are stored in a HashTable, and the scope is checked for every command possible.
+
+
+
 Test Explanations:
 
 ProofTest:
