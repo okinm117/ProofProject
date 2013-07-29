@@ -30,10 +30,27 @@ public class ProofTest{
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
-		String [] myTxts = {"thmSetOne","proof06_Revised.txt"};
-		
-		ProofChecker myChecker = new ProofChecker(myTxts);
+		//Running through given ProofExamples
+	
+		//Test nested show/assumes, mt, co, ~logic, and ic
+		//errors thrown: wrong number of args, out ofLine Scope
+		String [] myTxts1 = {"thmSetOne.txt","proof01_Revised.txt"};
+		ProofChecker myChecker = new ProofChecker(myTxts1);
+		// Test mp, ic
+		String [] myTxts2 = {"thmSetOne.txt","proof02_Revised.txt"};
+		myChecker = new ProofChecker(myTxts2);
+		//test assuming ~show, co, ic, double ~
+		String [] myTxts3 = {"thmSetOne.txt","proof03_Revised.txt"};
+		myChecker = new ProofChecker(myTxts3);
+		//Test Theorem Use, and/or logic, mp, co, ic
+		String [] myTxts4 = {"thmSetTwo.txt","proof04_Revised.txt"};
+		myChecker = new ProofChecker(myTxts4);
+		//test Theorem with double tilde, tilde logic, co, mp, ic
+		String [] myTxts5 = {"thmSetTwo.txt","proof05_Revised.txt"};
+		myChecker = new ProofChecker(myTxts5);
+		//Test mp, ic, nesting
+		String [] myTxts6 = {"thmSetOne.txt","proof06_Revised.txt"};
+		myChecker = new ProofChecker(myTxts6);
 	}
 
 
