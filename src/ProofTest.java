@@ -46,7 +46,7 @@ public class ProofTest{
 		String [] myTxts4 = {"thmSetTwo.txt","proof04_Revised.txt"};
 		myChecker = new ProofChecker(myTxts4);
 		//test Theorem with double tilde, tilde logic, co, mp, ic
-		String [] myTxts5 = {"thmSetOne.txt","proof05_Revised.txt"};
+		String [] myTxts5 = {"thmSetTwo.txt","proof05_Revised.txt"};
 		myChecker = new ProofChecker(myTxts5);
 		//Test mp, ic, nesting
 		String [] myTxts6 = {"thmSetOne.txt","proof06_Revised.txt"};
