@@ -97,6 +97,17 @@ public class Proof {
 			statement = StringSplitter(x);
 			LineChecker(statement);
 			reasonDelagation(statement);
+		//Proves a show if it exists in the theorem set
+			if(showTable.get(myLineNumber.currentSuper())!=null)
+			{
+				if(myTheoremSet.myTheorems.containsValue(showTable.get(myLineNumber.currentSuper())))
+				{
+					myTheoremSet.myTheorems.put(myLineNumber.currentSuper(), showTable.get(myLineNumber.currentSuper()));
+					showTable.remove(myLineNumber.currentSuper());
+					myLineNumber.layerUp();
+					
+				}
+			}
 		}catch (IllegalLineException e){
 			throw e;
 		}catch (IllegalInferenceException e){
