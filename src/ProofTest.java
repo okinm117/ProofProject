@@ -51,6 +51,9 @@ public class ProofTest{
 		//Test mp, ic, nesting
 		String [] myTxts6 = {"thmSetOne.txt","proof06_Revised.txt"};
 		myChecker = new ProofChecker(myTxts6);
+		//Test recognizing a&b = b&a
+		String [] myTxts7 = {"thmSetOne.txt","proof07_Revised.txt"};
+		myChecker = new ProofChecker(myTxts7);
 	}
 
 
